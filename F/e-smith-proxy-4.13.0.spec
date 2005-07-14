@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.13.0
-%define release 31
+%define release 31sme01
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -34,6 +34,7 @@ Patch22: e-smith-proxy-4.13.0-28.mitel_patch
 Patch23: e-smith-proxy-4.13.0-29.mitel_patch
 Patch24: e-smith-proxy-4.13.0-30.mitel_patch
 Patch25: e-smith-proxy-4.13.0-31.mitel_patch
+Patch26: e-smith-proxy-dbkey.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -48,6 +49,10 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Thu Jul 14 2005 Gordon Rowell <gordonr@gormand.com.au>
+- [4.13.0-31sme01]
+- Change smtpfront-qmail{Proxy} -> smtpd{Proxy} [SF: 1212323]
+
 * Tue Jul  5 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.13.0-31]
 - Add extension_methods spec to squid.conf, to allow subversion
@@ -383,7 +388,7 @@ e-smith server and gateway software - proxy module.
   - Add proxy-restart to console-save event
   - Remove proxy-startup from console-save and bootstrap-console-save events
   - Remove proxy-conf from post-upgrade event
-- Move mkdir to create bootstrap-console-save event directory into %prep
+- Move mkdir to create bootstrap-console-save event directory into prep
   section (from %build), so that it gets included in the tarball by the
   next rollRPM.
 
@@ -594,6 +599,7 @@ mkdir -p root/etc/e-smith/events/bootstrap-console-save
 %patch23 -p1
 %patch24 -p1
 %patch25 -p1
+%patch26 -p1
 
 %build
 perl createlinks
