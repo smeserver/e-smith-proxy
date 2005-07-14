@@ -1,0 +1,14 @@
+Index: e-smith-proxy/createlinks
+diff -u e-smith-proxy/createlinks:1.4 e-smith-proxy/createlinks:1.5
+--- e-smith-proxy/createlinks:1.4	Wed Dec 10 15:10:15 2003
++++ e-smith-proxy/createlinks	Wed Dec 10 15:19:36 2003
+@@ -23,7 +23,7 @@
+ 
+ # Daemontools links.
+ safe_symlink("../daemontools", "root/etc/rc.d/init.d/supervise/squid");
+-safe_symlink("/service/squid", "root/var/service/squid");
++safe_symlink("../var/service/squid", "root/service/squid");
+ # Runlevel init links.
+ safe_symlink("../init.d/supervise/squid", "root/etc/rc.d/rc7.d/S90squid");
+ safe_symlink("../init.d/supervise/squid", "root/etc/rc.d/rc6.d/K25squid");
+Index: e-smith-proxy/e-smith-proxy.spec

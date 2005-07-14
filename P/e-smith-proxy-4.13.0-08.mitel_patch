@@ -1,0 +1,14 @@
+Index: e-smith-proxy/e-smith-proxy.spec
+diff -u /dev/null e-smith-proxy/root/var/service/squid/log/run:1.5
+--- /dev/null	Mon Dec 15 16:31:14 2003
++++ e-smith-proxy/root/var/service/squid/log/run	Mon Dec 15 16:29:50 2003
+@@ -0,0 +1,9 @@
++#!/bin/sh
++#----------------------------------------------------------------------
++# copyright (C) 1999-2003 Mitel Networks Corporation
++#----------------------------------------------------------------------
++
++exec                                    \
++    /usr/local/bin/setuidgid smelog     \
++    /usr/local/bin/multilog t s5000000  \
++    /var/log/squid/run

@@ -1,0 +1,283 @@
+Index: e-smith-proxy/createlinks
+diff -u e-smith-proxy/createlinks:1.8 e-smith-proxy/createlinks:1.9
+--- e-smith-proxy/createlinks:1.8	Wed Dec 29 12:02:38 2004
++++ e-smith-proxy/createlinks	Tue Mar  8 22:32:25 2005
+@@ -2,28 +2,30 @@
+ 
+ use esmith::Build::CreateLinks qw(:all);
+ 
+-foreach (qw(
++my $event;
++foreach $event (qw(
+     console-save
+     bootstrap-console-save
+     network-create
+     network-delete
+ ))
+ {
+-    event_link("proxy-conf", $_, "55");
++    templates2events("/etc/httpd/conf/proxy/proxy.pac", $event);
++    templates2events("/etc/squid/squid.conf", $event);
+ }
+ 
+-foreach (qw(
++foreach $event (qw(
+     network-create
+     network-delete
+     console-save
+     proxy-update
+ ))
+ {
+-    event_link("proxy-restart", $_, "90");
++    safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/squid");
+ }
+ 
+-event_link("conf-masq", "proxy-update", "10");
+-event_link("adjust-masq", "proxy-update", "50");
++templates2events("/etc/rc.d/init.d/masq", "proxy-update");
++safe_symlink("adjust", "root/etc/e-smith/events/proxy-update/services2adjust/masq");
+ 
+ # Daemontools links.
+ safe_symlink("../daemontools", "root/etc/rc.d/init.d/supervise/squid");
+Index: e-smith-proxy/e-smith-proxy.spec
+diff -u e-smith-proxy/root/etc/e-smith/events/actions/proxy-conf:1.5 e-smith-proxy/root/etc/e-smith/events/actions/proxy-conf:removed
+--- e-smith-proxy/root/etc/e-smith/events/actions/proxy-conf:1.5	Tue Jun  8 15:15:02 2004
++++ e-smith-proxy/root/etc/e-smith/events/actions/proxy-conf	Wed Dec 31 19:00:00 1969
+@@ -1,57 +0,0 @@
+-#!/usr/bin/perl -w
+-
+-#----------------------------------------------------------------------
+-# copyright (C) 2002 Mitel Networks Corporation
+-#
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation; either version 2 of the License, or
+-# (at your option) any later version.
+-#
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-#
+-# Technical support for this program is available from Mitel Networks
+-# Please visit our web site www.e-smith.com for details.
+-#----------------------------------------------------------------------
+-
+-package esmith;
+-
+-use strict;
+-use Errno;
+-use esmith::util;
+-use esmith::templates;
+-use esmith::ConfigDB;
+-
+-my $event = shift;
+-
+-my $conf = esmith::ConfigDB->open() or die "Couldn't open ConfigDB\n";
+-
+-my $squid = $conf->get("squid") or die "Couldn't retrieve squid details\n";
+-
+-# If this is a bootstrap-console-save, and we're in serveronly mode, disable
+-# squid.
+-if ($event eq 'bootstrap-console-save')
+-{
+-    if ($conf->get_value('SystemMode') eq 'serveronly')
+-    {
+-        $squid->set_prop('status', 'disabled');
+-    }
+-}
+-
+-my $status = $squid->prop("status") || "disabled";
+-
+-if ( $status eq "enabled" )
+-{
+-    processTemplate ( { TEMPLATE_PATH => "/etc/squid/squid.conf" } );
+-
+-    processTemplate ({ TEMPLATE_PATH   => "/etc/httpd/conf/proxy/proxy.pac" });
+-}
+-
+-exit (0);
+Index: e-smith-proxy/root/etc/e-smith/events/actions/proxy-restart
+diff -u e-smith-proxy/root/etc/e-smith/events/actions/proxy-restart:1.4 e-smith-proxy/root/etc/e-smith/events/actions/proxy-restart:removed
+--- e-smith-proxy/root/etc/e-smith/events/actions/proxy-restart:1.4	Thu Jun 10 17:46:50 2004
++++ e-smith-proxy/root/etc/e-smith/events/actions/proxy-restart	Wed Dec 31 19:00:00 1969
+@@ -1,59 +0,0 @@
+-#!/usr/bin/perl -w
+-
+-#----------------------------------------------------------------------
+-# copyright (C) 1999, 2000 e-smith, inc.
+-#
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation; either version 2 of the License, or
+-# (at your option) any later version.
+-#
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+-# GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-# 
+-# Technical support for this program is available from e-smith, inc.
+-# For details, please visit our web site at www.e-smith.com or
+-# call us on 1 888 ESMITH 1 (US/Canada toll free) or +1 613 564 8000
+-#----------------------------------------------------------------------
+-
+-package esmith;
+-
+-use strict;
+-use Errno;
+-use esmith::ConfigDB;
+-
+-my $db = esmith::ConfigDB->open_ro
+-    or die "Can't open configuration db.\n";
+-
+-my $status = $db->get_prop('squid', 'status');
+-my $action = ($status eq 'enabled') ? 'start' : 'stop';
+-my $svstat = '/usr/local/bin/svstat';
+-
+-chomp( $status = `$svstat /service/squid` );
+-if ($status =~ m#^/service/squid: (\w+) #)
+-{
+-    $status = $1;
+-}
+-else
+-{
+-    die "Failed to parse svstat output!\n";
+-}
+-
+-$action = 'restart' if $action eq 'start' and $status eq 'up';
+-$action = undef     if $action eq 'stop'  and $status eq 'down';
+-
+-my $init = '/etc/init.d/squid';
+-
+-if ($action)
+-{
+-    system($init, $action) == 0
+-        or die "Failed to $action squid\n";
+-}
+-
+-exit (0);
+Index: e-smith-proxy/root/etc/e-smith/events/actions/proxy-start
+diff -u e-smith-proxy/root/etc/e-smith/events/actions/proxy-start:1.1 e-smith-proxy/root/etc/e-smith/events/actions/proxy-start:removed
+--- e-smith-proxy/root/etc/e-smith/events/actions/proxy-start:1.1	Thu Jan 22 11:30:22 2004
++++ e-smith-proxy/root/etc/e-smith/events/actions/proxy-start	Wed Dec 31 19:00:00 1969
+@@ -1,51 +0,0 @@
+-#!/usr/bin/perl -w
+-
+-#----------------------------------------------------------------------
+-# copyright (C) 2001 e-smith, inc.
+-#
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation; either version 2 of the License, or
+-# (at your option) any later version.
+-#
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-#
+-# Technical support for this program is available from e-smith, inc.
+-# For details, please visit our web site at www.e-smith.com or
+-# call us on 1 888 ESMITH 1 (US/Canada toll free) or +1 613 564 8000
+-#----------------------------------------------------------------------
+-
+-package esmith;
+-
+-use strict;
+-use Errno;
+-use esmith::config;
+-use esmith::util;
+-use esmith::db;
+-
+-my %conf;
+-tie %conf, 'esmith::config';
+-
+-# restart proxy server using the new timezone settings
+-my $status = db_get_prop (\%conf, 'squid', 'status');
+-
+-untie %conf;
+-
+-if (defined $status && $status eq 'enabled')
+-{
+-    esmith::util::serviceControl
+-	(
+-	    NAME   => 'squid',
+-	    ACTION => 'start'
+-	) ||
+-	die "Couldn't start squid";
+-}
+-
+-exit (0);
+Index: e-smith-proxy/root/etc/e-smith/events/actions/proxy-stop
+diff -u e-smith-proxy/root/etc/e-smith/events/actions/proxy-stop:1.1 e-smith-proxy/root/etc/e-smith/events/actions/proxy-stop:removed
+--- e-smith-proxy/root/etc/e-smith/events/actions/proxy-stop:1.1	Thu Jan 22 11:30:22 2004
++++ e-smith-proxy/root/etc/e-smith/events/actions/proxy-stop	Wed Dec 31 19:00:00 1969
+@@ -1,55 +0,0 @@
+-#!/usr/bin/perl -w
+-
+-#----------------------------------------------------------------------
+-# copyright (C) 2001 e-smith, inc.
+-#
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation; either version 2 of the License, or
+-# (at your option) any later version.
+-#
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-#
+-# Technical support for this program is available from e-smith, inc.
+-# For details, please visit our web site at www.e-smith.com or
+-# call us on 1 888 ESMITH 1 (US/Canada toll free) or +1 613 564 8000
+-#----------------------------------------------------------------------
+-
+-package esmith;
+-
+-use strict;
+-use Errno;
+-use esmith::config;
+-use esmith::util;
+-use esmith::db;
+-
+-my %conf;
+-tie %conf, 'esmith::config';
+-
+-# temporarily stop proxy server from operating (to set timezone)
+-# BACKGROUND is set to false so that service control waits for squid to stop
+-# before proceeding
+-
+-my $status = db_get_prop (\%conf, 'squid', 'status');
+-
+-untie %conf;
+-
+-if (defined $status && $status eq 'enabled')
+-{
+-    esmith::util::serviceControl
+-	(
+-	    NAME   => 'squid',
+-	    ACTION => 'stop',
+-	    BACKGROUND => 'false'
+-	) || 
+-	die "Couldn't stop squid";
+-}
+-
+-exit (0);

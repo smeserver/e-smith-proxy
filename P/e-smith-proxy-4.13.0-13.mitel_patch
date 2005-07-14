@@ -1,0 +1,10 @@
+Index: e-smith-proxy/e-smith-proxy.spec
+diff -u e-smith-proxy/root/var/service/squid/log/run:1.6 e-smith-proxy/root/var/service/squid/log/run:1.7
+--- e-smith-proxy/root/var/service/squid/log/run:1.6	Fri Dec 19 10:19:26 2003
++++ e-smith-proxy/root/var/service/squid/log/run	Fri Dec 19 14:48:58 2003
+@@ -6,4 +6,4 @@
+ exec                                    \
+     /usr/local/bin/setuidgid smelog     \
+     /usr/local/bin/multilog t s5000000  \
+-    ./run
++    /var/log/squid/run

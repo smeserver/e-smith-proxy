@@ -1,0 +1,6 @@
+Index: e-smith-proxy/e-smith-proxy.spec
+diff -u /dev/null e-smith-proxy/root/etc/e-smith/templates/etc/squid/squid.conf/35extension_methods:1.1
+--- /dev/null	Tue Jul  5 14:34:13 2005
++++ e-smith-proxy/root/etc/e-smith/templates/etc/squid/squid.conf/35extension_methods	Tue Jul  5 14:33:37 2005
+@@ -0,0 +1 @@
++extension_methods REPORT MERGE MKACTIVITY CHECKOUT

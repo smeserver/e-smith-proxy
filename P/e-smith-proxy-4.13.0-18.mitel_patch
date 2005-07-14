@@ -1,0 +1,174 @@
+Index: e-smith-proxy/createlinks
+diff -u e-smith-proxy/createlinks:1.5 e-smith-proxy/createlinks:1.6
+--- e-smith-proxy/createlinks:1.5	Wed Dec 10 15:19:36 2003
++++ e-smith-proxy/createlinks	Thu Jun 10 16:24:21 2004
+@@ -28,3 +28,6 @@
+ safe_symlink("../init.d/supervise/squid", "root/etc/rc.d/rc7.d/S90squid");
+ safe_symlink("../init.d/supervise/squid", "root/etc/rc.d/rc6.d/K25squid");
+ safe_symlink("../init.d/supervise/squid", "root/etc/rc.d/rc0.d/K25squid");
++
++# Symlink for the cgi.
++panel_link("proxy", "manager");
+Index: e-smith-proxy/e-smith-proxy.spec
+diff -u /dev/null e-smith-proxy/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy:1.1
+--- /dev/null	Thu Jun 10 16:25:02 2004
++++ e-smith-proxy/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy	Thu Jun 10 16:24:22 2004
+@@ -0,0 +1,50 @@
++<!-- vim: ft=xml ts=4 sw=4 et ai:
++-->
++<lexicon lang="en-us">
++    <entry>
++        <base>Proxy settings</base>
++        <trans>Proxy settings</trans>
++    </entry>
++    <entry>
++        <base>Security</base>
++        <trans>Security</trans>
++    </entry>
++    <entry>
++        <base>FIRST_PAGE_DESCRIPTION</base>
++        <trans>
++            This page provides the ability to enable or disable any or all of
++            the server's proxy software. Included in the base product is a
++            transparent proxy for HTTP traffic, which is enabled by default
++            unless the server is in &quot;serveronly&quot; mode. Additionally,
++            with the 6040 Office Productivity blade installed, the server
++            provides a transparent SMTP proxy which can also be controlled
++            here.
++        </trans>
++    </entry>
++    <entry>
++        <base>HTTP_PROXY_STATUS_DESCRIPTION</base>
++        <trans>
++            The server's HTTP proxy works to reduce overall uplink usage by
++            caching recently-visited pages. It is transparent to web browsers
++            using this server as their gateway. Enable or disable this proxy
++            with the following toggle.
++        </trans>
++    </entry>
++    <entry>
++        <base>HTTP_PROXY_STATUS_LABEL</base>
++        <trans>HTTP proxy status</trans>
++    </entry>
++    <entry>
++        <base>SMTP_PROXY_STATUS_DESCRIPTION</base>
++        <trans>
++            The server's transparent SMTP proxy works to reduce virus traffic
++            from infected client hosts by forcing all outgoing SMTP traffic
++            through this server. If you wish to use an alternate SMTP server,
++            and this server is your gateway to it, disable this proxy.
++        </trans>
++    </entry>
++    <entry>
++        <base>SAVE</base>
++        <trans>Save</trans>
++    </entry>
++</lexicon>
+Index: e-smith-proxy/root/etc/e-smith/web/functions/proxy
+diff -u /dev/null e-smith-proxy/root/etc/e-smith/web/functions/proxy:1.1
+--- /dev/null	Thu Jun 10 16:25:03 2004
++++ e-smith-proxy/root/etc/e-smith/web/functions/proxy	Thu Jun 10 16:24:22 2004
+@@ -0,0 +1,69 @@
++#!/usr/bin/perl -wT
++# vim: ts=4 sw=4 et ft=xml ai:
++
++#----------------------------------------------------------------------
++# heading     : Security
++# description : Proxy settings
++# navigation  : 5000 5500
++#----------------------------------------------------------------------
++#----------------------------------------------------------------------
++# copyright (C) 1999-2003 Mitel Networks Corporation
++#----------------------------------------------------------------------
++
++use strict;
++use CGI;
++use esmith::FormMagick::Panel::proxy;
++
++eval {
++    my $q = CGI->new();
++    my $f = esmith::FormMagick::Panel::proxy->new();
++
++    $f->display();
++};
++if ($@)
++{
++    print<<EOF;
++<html>
++<head><title>Fatal error caught</title></head>
++<body bgcolor=\"#ffffff\">
++<h3>Fatal error caught</h3>
++<pre>
++$@
++</pre>
++</body>
++</html>
++EOF
++}
++
++__DATA__
++<form title="FORM_TITLE" header="/etc/e-smith/web/common/head.tmpl"
++    footer="/etc/e-smith/web/common/foot.tmpl">
++
++    <page
++        name="First"
++        post-event="change_settings()"
++        pre-event="print_status_message()">
++
++        <description>FIRST_PAGE_DESCRIPTION</description>
++
++        <field
++            id="http_proxy_status"
++            value="get_http_proxy_status()"
++            type="select"
++            options="'enabled' => 'ENABLED','disabled' => 'DISABLED'">
++            <description>HTTP_PROXY_STATUS_DESCRIPTION</description>
++            <label>HTTP_PROXY_STATUS_LABEL</label>
++        </field>
++
++        <field
++            id="smtp_proxy_status"
++            value="get_smtp_proxy_status()"
++            type="select"
++            options="'enabled' => 'ENABLED','disabled' => 'DISABLED'">
++            <description>SMTP_PROXY_STATUS_DESCRIPTION</description>
++            <label>SMTP_PROXY_STATUS_LABEL</label>
++        </field>
++
++        <subroutine src="print_button('SAVE')" />
++    </page>
++</form>
+Index: e-smith-proxy/root/usr/lib/perl/site_perl/esmith/FormMagick/Panel/proxy.pm
+diff -u /dev/null e-smith-proxy/root/usr/lib/perl/site_perl/esmith/FormMagick/Panel/proxy.pm:1.1
+--- /dev/null	Thu Jun 10 16:25:03 2004
++++ e-smith-proxy/root/usr/lib/perl/site_perl/esmith/FormMagick/Panel/proxy.pm	Thu Jun 10 16:24:22 2004
+@@ -0,0 +1,29 @@
++#----------------------------------------------------------------------
++# $Id: tug.pm,v 1.158 2004/06/02 18:50:14 msoulier Exp $
++#----------------------------------------------------------------------
++# copyright (C) 2002 Mitel Networks Corporation
++#----------------------------------------------------------------------
++
++package esmith::FormMagick::Panel::proxy;
++
++use strict;
++use esmith::ConfigDB;
++use esmith::FormMagick;
++
++use constant SIGEVENT => '/sbin/e-smith/signal-event';
++use constant TRUE  => 1;
++use constant FALSE => 0;
++
++our @ISA = qw(esmith::FormMagick Exporter);
++
++our $VERSION = sprintf '%d.%03d', q$Revision: 1.158 $ =~ /: (\d+).(\d+)/;
++
++=head1 NAME
++
++=head1 SYNOPSIS
++
++=head1 DESCRIPTION
++
++=head1 FUNCTIONS
++
++=cut

@@ -1,0 +1,169 @@
+Index: e-smith-proxy/e-smith-proxy.spec
+diff -u e-smith-proxy/root/etc/e-smith/events/actions/proxy-restart:1.3 e-smith-proxy/root/etc/e-smith/events/actions/proxy-restart:1.4
+--- e-smith-proxy/root/etc/e-smith/events/actions/proxy-restart:1.3	Tue May  4 11:16:11 2004
++++ e-smith-proxy/root/etc/e-smith/events/actions/proxy-restart	Thu Jun 10 17:46:50 2004
+@@ -2,17 +2,17 @@
+ 
+ #----------------------------------------------------------------------
+ # copyright (C) 1999, 2000 e-smith, inc.
+-#		
++#
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation; either version 2 of the License, or
+ # (at your option) any later version.
+-#		
++#
+ # This program is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+ # GNU General Public License for more details.
+-#		
++#
+ # You should have received a copy of the GNU General Public License
+ # along with this program; if not, write to the Free Software
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+@@ -35,25 +35,25 @@
+ my $action = ($status eq 'enabled') ? 'start' : 'stop';
+ my $svstat = '/usr/local/bin/svstat';
+ 
+-if ($action eq 'start')
++chomp( $status = `$svstat /service/squid` );
++if ($status =~ m#^/service/squid: (\w+) #)
+ {
+-    chomp( my $status = `$svstat /service/squid` );
+-    if ($status =~ m#^/service/squid: (\w+) #)
+-    {
+-        if ($1 eq 'up')
+-        {
+-            $action = 'restart';
+-        }
+-    }
+-    else
+-    {
+-        die "Failed to parse svstat output!\n";
+-    }
++    $status = $1;
+ }
++else
++{
++    die "Failed to parse svstat output!\n";
++}
++
++$action = 'restart' if $action eq 'start' and $status eq 'up';
++$action = undef     if $action eq 'stop'  and $status eq 'down';
+ 
+ my $init = '/etc/init.d/squid';
+ 
+-system($init, $action) == 0
+-    or die "Failed to $action squid\n";
++if ($action)
++{
++    system($init, $action) == 0
++        or die "Failed to $action squid\n";
++}
+ 
+ exit (0);
+Index: e-smith-proxy/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy
+diff -u e-smith-proxy/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy:1.2 e-smith-proxy/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy:1.3
+--- e-smith-proxy/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy:1.2	Thu Jun 10 17:17:33 2004
++++ e-smith-proxy/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy	Thu Jun 10 17:46:50 2004
+@@ -75,4 +75,10 @@
+             ERROR: There is no squid record in the configuration database.
+         </trans>
+     </entry>
++    <entry>
++        <base>SUCCESS</base>
++        <trans>
++            The new proxy settings were applied successfully.
++        </trans>
++    </entry>
+ </lexicon>
+Index: e-smith-proxy/root/etc/e-smith/web/functions/proxy
+diff -u e-smith-proxy/root/etc/e-smith/web/functions/proxy:1.1 e-smith-proxy/root/etc/e-smith/web/functions/proxy:1.2
+--- e-smith-proxy/root/etc/e-smith/web/functions/proxy:1.1	Thu Jun 10 16:24:22 2004
++++ e-smith-proxy/root/etc/e-smith/web/functions/proxy	Thu Jun 10 17:46:50 2004
+@@ -55,14 +55,7 @@
+             <label>HTTP_PROXY_STATUS_LABEL</label>
+         </field>
+ 
+-        <field
+-            id="smtp_proxy_status"
+-            value="get_smtp_proxy_status()"
+-            type="select"
+-            options="'enabled' => 'ENABLED','disabled' => 'DISABLED'">
+-            <description>SMTP_PROXY_STATUS_DESCRIPTION</description>
+-            <label>SMTP_PROXY_STATUS_LABEL</label>
+-        </field>
++        <subroutine src="show_smtp_proxy_status()" />
+ 
+         <subroutine src="print_button('SAVE')" />
+     </page>
+Index: e-smith-proxy/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/proxy.pm
+diff -u e-smith-proxy/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/proxy.pm:1.2 e-smith-proxy/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/proxy.pm:1.3
+--- e-smith-proxy/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/proxy.pm:1.2	Thu Jun 10 17:17:33 2004
++++ e-smith-proxy/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/proxy.pm	Thu Jun 10 17:46:50 2004
+@@ -1,5 +1,5 @@
+ #----------------------------------------------------------------------
+-# $Id: proxy.pm,v 1.1 2004/06/10 20:35:01 msoulier Exp $
++# $Id: proxy.pm,v 1.2 2004/06/10 21:17:33 msoulier Exp $
+ #----------------------------------------------------------------------
+ # copyright (C) 2002 Mitel Networks Corporation
+ #----------------------------------------------------------------------
+@@ -15,9 +15,10 @@
+ use constant FALSE => 0;
+ 
+ our @ISA = qw(esmith::FormMagick Exporter);
+-our $VERSION = sprintf '%d.%03d', q$Revision: 1.1 $ =~ /: (\d+).(\d+)/;
++our $VERSION = sprintf '%d.%03d', q$Revision: 1.2 $ =~ /: (\d+).(\d+)/;
+ our @EXPORT = qw(
+-    get_http_proxy_status get_smtp_proxy_status
++    get_http_proxy_status get_smtp_proxy_status change_settings
++    show_smtp_proxy_status
+     );
+ 
+ =head1 NAME
+@@ -103,6 +104,43 @@
+         or return $self->error('ERR_PROXY_UPDATE_FAILED');
+ 
+     return $self->success();
++}
++
++=head2 show_smtp_proxy_status
++
++This function conditionally displays the smtp proxy widgets, if the
++e-smith-email rpm is installed.
++
++=cut
++
++sub show_smtp_proxy_status
++{
++    my $self = shift;
++    my $q = $self->{cgi};
++    my @smtp_proxy_settings = qw(enabled disabled);
++    my $default = $self->get_smtp_proxy_status();
++    my %labels = (
++        enabled  => $self->localise('ENABLED'),
++        disabled => $self->localise('DISABLED'),
++        );
++
++    if (system('/bin/rpm -q e-smith-email > /dev/null') == 0)
++    {
++        # e-smith-email is installed. Show it.
++        print $q->Tr(
++            $q->td({-colspan => 2},
++            $q->p($self->localise('SMTP_PROXY_STATUS_DESCRIPTION'))));
++        print $q->Tr(
++            $q->td({-class => 'sme-noborders-label'},
++                $self->localise('SMTP_PROXY_STATUS_LABEL')),
++            $q->td({-class => 'sme-noborders-content'},
++                $q->popup_menu({-name => 'smtp_proxy_status',
++                                -values => \@smtp_proxy_settings,
++                                -default => $default,
++                                -labels => \%labels})));
++
++    }
++    return undef;
+ }
+ 
+ 1;

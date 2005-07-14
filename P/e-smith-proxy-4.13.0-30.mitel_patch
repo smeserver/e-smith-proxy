@@ -1,0 +1,28 @@
+Index: e-smith-proxy/e-smith-proxy.spec
+diff -u e-smith-proxy/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy:1.3 e-smith-proxy/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy:1.4
+--- e-smith-proxy/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy:1.3	Thu Jun 10 17:46:50 2004
++++ e-smith-proxy/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy	Thu Jun  9 16:36:09 2005
+@@ -16,13 +16,16 @@
+     <entry>
+         <base>FIRST_PAGE_DESCRIPTION</base>
+         <trans>
+-            This page provides the ability to enable or disable any or all of
+-            the server's proxy software. Included in the base product is a
+-            transparent proxy for HTTP traffic, which is enabled by default
+-            unless the server is in &quot;serveronly&quot; mode. Additionally,
+-            with the 6040 Office Productivity blade installed, the server
+-            provides a transparent SMTP proxy which can also be controlled
+-            here.
++            This page allows configuration of the server's 
++            proxy settings.
++
++            The server includes a transparent proxy and cache for 
++            HTTP traffic. This is enabled by default, unless the 
++            server is in &quot;serveronly&quot; mode. 
++
++            If this server is acting as an e-mail server, connections 
++            from local network clients to external SMTP servers 
++            will default to being redirected to the local e-mail server.
+         </trans>
+     </entry>
+     <entry>
