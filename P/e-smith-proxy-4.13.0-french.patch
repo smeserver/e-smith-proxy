@@ -1,0 +1,90 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-proxy-4.13.0/root/etc/e-smith/locale/fr/etc/e-smith/web/functions/proxy mezzanine_patched_e-smith-proxy-4.13.0/root/etc/e-smith/locale/fr/etc/e-smith/web/functions/proxy
+--- e-smith-proxy-4.13.0/root/etc/e-smith/locale/fr/etc/e-smith/web/functions/proxy	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-proxy-4.13.0/root/etc/e-smith/locale/fr/etc/e-smith/web/functions/proxy	2005-07-17 15:44:20.807461800 -0600
+@@ -0,0 +1,86 @@
++<!-- vim: ft=xml ts=4 sw=4 et ai:
++-->
++<lexicon lang="fr">
++    <entry>
++        <base>Proxy settings</base>
++        <trans>Configuration du Proxy</trans>
++    </entry>
++    <entry>
++        <base>Security</base>
++        <trans>Sécurité</trans>
++    </entry>
++    <entry>
++        <base>FORM_TITLE</base>
++        <trans>Configuration du Proxy</trans>
++    </entry>
++    <entry>
++        <base>FIRST_PAGE_DESCRIPTION</base>
++        <trans>
++            Cette page permet la configuration des paramètres du serveur 
++            proxy.
++
++            Le serveur intègre un proxy et un cache transparents pour 
++            le traffic HTTP. Il est activé par défaut sauf si le serveur 
++            est en mode &quot;serveronly&quot;. 
++
++            Si ce serveur agit en tant que serveur de messagerie, les connexions 
++            du réseau local vers des serveurs SMTP externes 
++            seront redirigées par défaut vers le serveur de messagerie local.
++        </trans>
++    </entry>
++    <entry>
++        <base>HTTP_PROXY_STATUS_DESCRIPTION</base>
++        <trans>
++            Le serveur proxy HTTP permet de réduire l'utilisation du lien sortant en 
++            mettant en cache les pages récemment visitées. Il est transparent vis à vis des navigateurs
++            qui utilisent ce serveur comme passerelle. Activez ou désactivez ce proxy avec le commutateur suivant.
++        </trans>
++    </entry>
++    <entry>
++        <base>HTTP_PROXY_STATUS_LABEL</base>
++        <trans>Etat du proxy HTTP</trans>
++    </entry>
++    <entry>
++        <base>SMTP_PROXY_STATUS_DESCRIPTION</base>
++        <trans>
++            Le serveur proxy SMTP transparent permet de réduire le traffic lié aux virus
++            à partir des clients infectés en forçant tout le traffic SMTP sortant à traverser
++            ce serveur. Si vous souhaitez utiliser un autre serveur SMTP,
++            et que ce serveur est votre passerelle vers celui-ci, désactivez ce proxy.
++        </trans>
++    </entry>
++    <entry>
++        <base>SMTP_PROXY_STATUS_LABEL</base>
++        <trans>Etat du proxy SMTP</trans>
++    </entry>
++    <entry>
++        <base>SAVE</base>
++        <trans>Enregistrer</trans>
++    </entry>
++    <entry>
++        <base>ENABLED</base>
++        <trans>Activé</trans>
++    </entry>
++    <entry>
++        <base>DISABLED</base>
++        <trans>Désactivé</trans>
++    </entry>
++    <entry>
++        <base>ERR_PROXY_UPDATE_FAILED</base>
++        <trans>
++            ERREUR: Un évènement de mise à jour du proxy a retourné une erreur.
++        </trans>
++    </entry>
++    <entry>
++        <base>ERR_NO_SQUID_REC</base>
++        <trans>
++            ERREUR: Il n'y a aucun enregistrement squid dans la base de donnée de configuration
++        </trans>
++    </entry>
++    <entry>
++        <base>SUCCESS</base>
++        <trans>
++            Les nouveaux paramètres du proxy ont étés enregistrés.
++        </trans>
++    </entry>
++</lexicon>
