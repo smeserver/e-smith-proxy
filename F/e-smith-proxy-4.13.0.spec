@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.13.0
-%define release 31sme01
+%define release 33
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -34,7 +34,8 @@ Patch22: e-smith-proxy-4.13.0-28.mitel_patch
 Patch23: e-smith-proxy-4.13.0-29.mitel_patch
 Patch24: e-smith-proxy-4.13.0-30.mitel_patch
 Patch25: e-smith-proxy-4.13.0-31.mitel_patch
-Patch26: e-smith-proxy-dbkey.patch
+Patch26: e-smith-proxy-4.13.0-32.mitel_patch
+Patch27: e-smith-proxy-4.13.0-33.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -49,9 +50,13 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
-* Thu Jul 14 2005 Gordon Rowell <gordonr@gormand.com.au>
-- [4.13.0-31sme01]
-- Change smtpfront-qmail{Proxy} -> smtpd{Proxy} [SF: 1212323]
+* Thu Jul 14 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.13.0-33]
+- Change smtpfront-qmail{Proxy} -> smtpd{Proxy}. [Gordon Rowell, SF: 1212323]
+
+* Thu Jul 14 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.13.0-32]
+- Disable DNS tests on startup, like the standard RH config. [SF: 1234007]
 
 * Tue Jul  5 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.13.0-31]
@@ -600,6 +605,7 @@ mkdir -p root/etc/e-smith/events/bootstrap-console-save
 %patch24 -p1
 %patch25 -p1
 %patch26 -p1
+%patch27 -p1
 
 %build
 perl createlinks
