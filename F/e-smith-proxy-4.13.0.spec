@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.13.0
-%define release 33sme01
+%define release 33sme02
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -37,6 +37,7 @@ Patch25: e-smith-proxy-4.13.0-31.mitel_patch
 Patch26: e-smith-proxy-4.13.0-32.mitel_patch
 Patch27: e-smith-proxy-4.13.0-33.mitel_patch
 Patch28: e-smith-proxy-4.13.0-french.patch
+Patch29: e-smith-proxy-4.13.0-dbmoved.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -51,7 +52,11 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
-* Fri Jul 17 2005 Shad L. Lords <slords@mail.com>
+* Sun Jul 17 2005 Shad L. Lords <slords@mail.com>
+- [4.13.0-33sme02]
+- Preparations for db move
+
+* Sun Jul 17 2005 Shad L. Lords <slords@mail.com>
 - [4.13.0-33sme01]
 - Add french translations
 
@@ -612,6 +617,7 @@ mkdir -p root/etc/e-smith/events/bootstrap-console-save
 %patch26 -p1
 %patch27 -p1
 %patch28 -p1
+%patch29 -p1
 
 %build
 perl createlinks

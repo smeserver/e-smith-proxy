@@ -1,0 +1,28 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-proxy-4.13.0/root/etc/e-smith/templates/etc/squid/squid.conf/20ACL10localhost mezzanine_patched_e-smith-proxy-4.13.0/root/etc/e-smith/templates/etc/squid/squid.conf/20ACL10localhost
+--- e-smith-proxy-4.13.0/root/etc/e-smith/templates/etc/squid/squid.conf/20ACL10localhost	2005-07-17 21:55:22.794053168 -0600
++++ mezzanine_patched_e-smith-proxy-4.13.0/root/etc/e-smith/templates/etc/squid/squid.conf/20ACL10localhost	2005-07-17 21:55:11.845680240 -0600
+@@ -1,21 +1,9 @@
+ {
+-    use esmith::util;
++    use esmith::NetworksDB;
+ 
+-    my %networks;
+-    tie %networks, 'esmith::config', '/home/e-smith/networks';
++    my $ndb = esmith::NetworksDB->open_ro();
+ 
+-    my ($network, $broadcast) =
+-	esmith::util::computeNetworkAndBroadcast ($LocalIP, $LocalNetmask);
+-    my $localAccess = "127.0.0.1";
+-
+-    foreach my $network
+-	(grep { db_get_type(\%networks, $_) eq "network" } db_get(\%networks))
+-    {
+-	my $mask = db_get_prop(\%networks, $network, 'Mask')
+-	    || "255.255.255.0";
+-	$localAccess .= " " .
+-	    esmith::util::computeLocalNetworkSpec ($network, $mask);
+-    }
++    $localAccess = $ndb->local_access_spec();
+ 
+     $OUT .= "acl localsrc src $localAccess\n";
+     $OUT .= "acl localdst dst $localAccess";
