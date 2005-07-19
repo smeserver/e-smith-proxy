@@ -1,6 +1,7 @@
-diff -Nur -x '*.orig' -x '*.rej' e-smith-proxy-4.13.0/root/etc/e-smith/templates/etc/squid/squid.conf/20ACL10localhost mezzanine_patched_e-smith-proxy-4.13.0/root/etc/e-smith/templates/etc/squid/squid.conf/20ACL10localhost
---- e-smith-proxy-4.13.0/root/etc/e-smith/templates/etc/squid/squid.conf/20ACL10localhost	2005-07-17 21:55:22.794053168 -0600
-+++ mezzanine_patched_e-smith-proxy-4.13.0/root/etc/e-smith/templates/etc/squid/squid.conf/20ACL10localhost	2005-07-17 21:55:11.845680240 -0600
+Index: e-smith-proxy/e-smith-proxy.spec
+diff -u e-smith-proxy/root/etc/e-smith/templates/etc/squid/squid.conf/20ACL10localhost:1.3 e-smith-proxy/root/etc/e-smith/templates/etc/squid/squid.conf/20ACL10localhost:1.4
+--- e-smith-proxy/root/etc/e-smith/templates/etc/squid/squid.conf/20ACL10localhost:1.3	Tue Sep 28 17:44:12 2004
++++ e-smith-proxy/root/etc/e-smith/templates/etc/squid/squid.conf/20ACL10localhost	Mon Jul 18 19:06:32 2005
 @@ -1,21 +1,9 @@
  {
 -    use esmith::util;

@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.13.0
-%define release 33sme02
+%define release 35
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -36,8 +36,8 @@ Patch24: e-smith-proxy-4.13.0-30.mitel_patch
 Patch25: e-smith-proxy-4.13.0-31.mitel_patch
 Patch26: e-smith-proxy-4.13.0-32.mitel_patch
 Patch27: e-smith-proxy-4.13.0-33.mitel_patch
-Patch28: e-smith-proxy-4.13.0-french.patch
-Patch29: e-smith-proxy-4.13.0-dbmoved.patch
+Patch28: e-smith-proxy-4.13.0-34.mitel_patch
+Patch29: e-smith-proxy-4.13.0-35.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -52,13 +52,14 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
-* Sun Jul 17 2005 Shad L. Lords <slords@mail.com>
-- [4.13.0-33sme02]
-- Preparations for db move
+* Mon Jul 18 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.13.0-35]
+- Add French translation of panel (Merci, Didier RAMBEAU). [SF: 1234928]
 
-* Sun Jul 17 2005 Shad L. Lords <slords@mail.com>
-- [4.13.0-33sme01]
-- Add french translations
+* Mon Jul 18 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.13.0-34]
+- Update to current db access APIs, in readiness for move of dbs to private
+  directory. [SF: 1216546 (Shad)]
 
 * Thu Jul 14 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.13.0-33]

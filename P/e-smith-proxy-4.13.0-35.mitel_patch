@@ -1,6 +1,7 @@
-diff -Nur -x '*.orig' -x '*.rej' e-smith-proxy-4.13.0/root/etc/e-smith/locale/fr/etc/e-smith/web/functions/proxy mezzanine_patched_e-smith-proxy-4.13.0/root/etc/e-smith/locale/fr/etc/e-smith/web/functions/proxy
---- e-smith-proxy-4.13.0/root/etc/e-smith/locale/fr/etc/e-smith/web/functions/proxy	1969-12-31 17:00:00.000000000 -0700
-+++ mezzanine_patched_e-smith-proxy-4.13.0/root/etc/e-smith/locale/fr/etc/e-smith/web/functions/proxy	2005-07-17 15:44:20.807461800 -0600
+Index: e-smith-proxy/e-smith-proxy.spec
+diff -u /dev/null e-smith-proxy/root/etc/e-smith/locale/fr/etc/e-smith/web/functions/proxy:1.1
+--- /dev/null	Mon Jul 18 19:11:08 2005
++++ e-smith-proxy/root/etc/e-smith/locale/fr/etc/e-smith/web/functions/proxy	Mon Jul 18 19:10:37 2005
 @@ -0,0 +1,86 @@
 +<!-- vim: ft=xml ts=4 sw=4 et ai:
 +-->
