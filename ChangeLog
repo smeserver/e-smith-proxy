@@ -28,3 +28,9 @@ Mon Jul 18 22:33:42 2005                           Shad Lords (slords)
 Sync with mitel
 
 ----------------------------------------------------------------------
+Thu Jul 28 12:43:39 2005                           Shad Lords (slords)
+
+- Add squid{TCPProxyPort} for transparent redirects [SF: 1246986]
+
+
+----------------------------------------------------------------------

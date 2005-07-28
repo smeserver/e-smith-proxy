@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.13.0
-%define release 35
+%define release 35sme01
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -38,6 +38,7 @@ Patch26: e-smith-proxy-4.13.0-32.mitel_patch
 Patch27: e-smith-proxy-4.13.0-33.mitel_patch
 Patch28: e-smith-proxy-4.13.0-34.mitel_patch
 Patch29: e-smith-proxy-4.13.0-35.mitel_patch
+Patch30: e-smith-proxy-4.13.0-firewall.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -52,6 +53,10 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Thu Jul 28 2005 Shad L. Lords <slords@mail.com>
+- [4.13.0-35sme01]
+- Add squid{TCPProxyPort} for transparent redirects [SF: 1246986]
+
 * Mon Jul 18 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.13.0-35]
 - Add French translation of panel (Merci, Didier RAMBEAU). [SF: 1234928]
@@ -619,6 +624,7 @@ mkdir -p root/etc/e-smith/events/bootstrap-console-save
 %patch27 -p1
 %patch28 -p1
 %patch29 -p1
+%patch30 -p1
 
 %build
 perl createlinks
