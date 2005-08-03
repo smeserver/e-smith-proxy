@@ -1,5 +1,0 @@
-diff -Nur -x '*.orig' -x '*.rej' e-smith-proxy-4.13.0/root/etc/e-smith/db/configuration/defaults/squid/TCPProxyPort mezzanine_patched_e-smith-proxy-4.13.0/root/etc/e-smith/db/configuration/defaults/squid/TCPProxyPort
---- e-smith-proxy-4.13.0/root/etc/e-smith/db/configuration/defaults/squid/TCPProxyPort	1969-12-31 17:00:00.000000000 -0700
-+++ mezzanine_patched_e-smith-proxy-4.13.0/root/etc/e-smith/db/configuration/defaults/squid/TCPProxyPort	2005-07-28 12:40:27.216441992 -0600
-@@ -0,0 +1 @@
-+80:3128

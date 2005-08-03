@@ -1,0 +1,18 @@
+Index: e-smith-proxy/e-smith-proxy.spec
+diff -u /dev/null e-smith-proxy/root/etc/e-smith/db/configuration/defaults/squid/TCPPort:1.1
+--- /dev/null	Tue Aug  2 16:51:34 2005
++++ e-smith-proxy/root/etc/e-smith/db/configuration/defaults/squid/TCPPort	Tue Aug  2 16:50:39 2005
+@@ -0,0 +1 @@
++3128
+Index: e-smith-proxy/root/etc/e-smith/db/configuration/defaults/squid/TCPProxyPort
+diff -u /dev/null e-smith-proxy/root/etc/e-smith/db/configuration/defaults/squid/TCPProxyPort:1.1
+--- /dev/null	Tue Aug  2 16:51:34 2005
++++ e-smith-proxy/root/etc/e-smith/db/configuration/defaults/squid/TCPProxyPort	Tue Aug  2 16:50:39 2005
+@@ -0,0 +1 @@
++80:3128
+Index: e-smith-proxy/root/etc/e-smith/db/configuration/defaults/squid/access
+diff -u /dev/null e-smith-proxy/root/etc/e-smith/db/configuration/defaults/squid/access:1.1
+--- /dev/null	Tue Aug  2 16:51:34 2005
++++ e-smith-proxy/root/etc/e-smith/db/configuration/defaults/squid/access	Tue Aug  2 16:50:39 2005
+@@ -0,0 +1 @@
++private
