@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.13.0
-%define release 36
+%define release 37
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -42,7 +42,8 @@ Patch30: e-smith-proxy-4.13.0-36.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
-Requires: e-smith-base, squid, e-smith-lib e-smith-hosts >= 1.7.2
+Requires: e-smith-base
+Requires: squid
 Requires: e-smith-lib >= 1.15.1-19
 Requires: iptables
 BuildRequires: e-smith-devtools
@@ -53,6 +54,10 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Mon Aug 29 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.13.0-37]
+- Remove dependency on e-smith-hosts.
+
 * Tue Aug  2 2005 Shad Lords <slords@email.com>
 - [4.13.0-36]
 - Add TCPPort and access for firewall definitions [SF: 1246986]
