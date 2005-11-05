@@ -1,44 +1,14 @@
 Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
-%define version 4.13.0
-%define release 37
+%define version 4.13.2
+%define release 02
 Version: %{version}
 Release: %{release}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch0: e-smith-proxy-4.13.0-02.mitel_patch
-Patch1: e-smith-proxy-4.13.0-03.mitel_patch
-Patch2: e-smith-proxy-4.13.0-05.mitel_patch
-Patch3: e-smith-proxy-4.13.0-06.mitel_patch
-Patch4: e-smith-proxy-4.13.0-07.mitel_patch
-Patch5: e-smith-proxy-4.13.0-08.mitel_patch
-Patch6: e-smith-proxy-4.13.0-10.mitel_patch
-Patch7: e-smith-proxy-4.13.0-11.mitel_patch
-Patch8: e-smith-proxy-4.13.0-13.mitel_patch
-Patch9: e-smith-proxy-4.13.0-14.mitel_patch
-Patch10: e-smith-proxy-4.13.0-15.mitel_patch
-Patch11: e-smith-proxy-4.13.0-16.mitel_patch
-Patch12: e-smith-proxy-4.13.0-17.mitel_patch
-Patch13: e-smith-proxy-4.13.0-18.mitel_patch
-Patch14: e-smith-proxy-4.13.0-19.mitel_patch
-Patch15: e-smith-proxy-4.13.0-20.mitel_patch
-Patch16: e-smith-proxy-4.13.0-21.mitel_patch
-Patch17: e-smith-proxy-4.13.0-22.mitel_patch
-Patch18: e-smith-proxy-4.13.0-24.mitel_patch
-Patch19: e-smith-proxy-4.13.0-25.mitel_patch
-Patch20: e-smith-proxy-4.13.0-26.mitel_patch
-Patch21: e-smith-proxy-4.13.0-27.mitel_patch
-Patch22: e-smith-proxy-4.13.0-28.mitel_patch
-Patch23: e-smith-proxy-4.13.0-29.mitel_patch
-Patch24: e-smith-proxy-4.13.0-30.mitel_patch
-Patch25: e-smith-proxy-4.13.0-31.mitel_patch
-Patch26: e-smith-proxy-4.13.0-32.mitel_patch
-Patch27: e-smith-proxy-4.13.0-33.mitel_patch
-Patch28: e-smith-proxy-4.13.0-34.mitel_patch
-Patch29: e-smith-proxy-4.13.0-35.mitel_patch
-Patch30: e-smith-proxy-4.13.0-36.mitel_patch
+Patch0: e-smith-proxy-4.13.2-02.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -54,6 +24,33 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Mon Oct 17 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.13.2-02]
+- Allow squid to create a real pid file, so that "squid -k rotate"
+  works. PID file needs to be created in a directory owned by 'squid'
+  user - I've chosen /var/log/squid. [SF: 1327724]
+
+* Fri Oct 14 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.13.2-01]
+- Remove L10Ns from base packages [SF: 1309520]
+
+* Fri Oct 14 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.13.1-01]
+- New dev stream before relocating L10Ns
+
+* Fri Sep 30 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.13.0-40]
+- Added Italian L10N - Thanks Filippo Carletti [SF: 1309266]
+
+* Tue Sep 27 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.13.0-39]
+- Fix squid run script so that initialization output is also
+  sent to the logger. [SF: 1200402]
+
+* Mon Sep 26 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.13.0-38]
+- Added German L10N - Thanks Dietmar Berteld [SF: 1293325]
+
 * Mon Aug 29 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.13.0-37]
 - Remove dependency on e-smith-hosts.
@@ -601,36 +598,6 @@ e-smith server and gateway software - proxy module.
 %setup
 mkdir -p root/etc/e-smith/events/bootstrap-console-save
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
-%patch17 -p1
-%patch18 -p1
-%patch19 -p1
-%patch20 -p1
-%patch21 -p1
-%patch22 -p1
-%patch23 -p1
-%patch24 -p1
-%patch25 -p1
-%patch26 -p1
-%patch27 -p1
-%patch28 -p1
-%patch29 -p1
-%patch30 -p1
 
 %build
 perl createlinks
