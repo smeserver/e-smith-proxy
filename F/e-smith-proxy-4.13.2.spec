@@ -2,13 +2,15 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.13.2
-%define release 02
+%define release 04
 Version: %{version}
 Release: %{release}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-proxy-4.13.2-02.mitel_patch
+Patch1: e-smith-proxy-4.13.2-03.mitel_patch
+Patch2: e-smith-proxy-4.13.2-04.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -24,6 +26,14 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Wed Nov 23 2005 Charlie Brady <charlieb@e-smith.com>
+- [4.13.2-04]
+- Return 'return "DIRECT";' by default if squid is disabled [SF: 1310447]
+
+* Sat Nov  5 2005 Gordon Rowell <gordonr@e-smith.com>
+- [4.13.2-03]
+- Return "DIRECT" by default if squid is disabled [SF: 1310447]
+
 * Mon Oct 17 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.13.2-02]
 - Allow squid to create a real pid file, so that "squid -k rotate"
@@ -598,6 +608,8 @@ e-smith server and gateway software - proxy module.
 %setup
 mkdir -p root/etc/e-smith/events/bootstrap-console-save
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 perl createlinks
