@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.13.2
-%define release 04
+%define release 05
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -26,6 +26,9 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Wed Nov 30 2005 Gordon Rowell <gordonr@gormand.com.au> 4.13.2-05
+- Bump release number only
+
 * Wed Nov 23 2005 Charlie Brady <charlieb@e-smith.com>
 - [4.13.2-04]
 - Return 'return "DIRECT";' by default if squid is disabled [SF: 1310447]
