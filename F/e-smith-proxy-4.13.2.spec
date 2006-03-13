@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.13.2
-%define release 05
+%define release 06
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -11,6 +11,7 @@ Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-proxy-4.13.2-02.mitel_patch
 Patch1: e-smith-proxy-4.13.2-03.mitel_patch
 Patch2: e-smith-proxy-4.13.2-04.mitel_patch
+Patch3: e-smith-proxy-4.13.2-ProxyPAC.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -26,6 +27,9 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Mon Mar 13 2006 Gordon Rowell <gordonr@gormand.com.au> 4.13.2-06
+- Expand proxy.pac and squid.conf in proxy-update event [SME: 212]
+
 * Wed Nov 30 2005 Gordon Rowell <gordonr@gormand.com.au> 4.13.2-05
 - Bump release number only
 
@@ -613,6 +617,7 @@ mkdir -p root/etc/e-smith/events/bootstrap-console-save
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 perl createlinks
