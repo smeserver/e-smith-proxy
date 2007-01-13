@@ -1,0 +1,29 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/crontab/squid mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/crontab/squid
+--- e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/crontab/squid	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/crontab/squid	2007-01-13 13:46:51.000000000 -0700
+@@ -0,0 +1,20 @@
++{
++    return "# squid is disabled\n" unless $squid{status} eq 'enabled';
++
++    my $freq = $squid{Rotate} || 'daily';
++    my $min = int(rand(60));
++    my $hour = int(rand(5));
++    my $dow = substr(localtime,0,3);
++    
++    if ($freq eq 'hourly') {
++	return "$min * * * * root squid -k rotate\n";
++    } elsif ($freq eq 'weekly') {
++	return "$min $hour * * $dow root squid -k rotate\n";
++    } elsif ($freq eq 'monthly') {
++	return "$min $hour 15 * * root squid -k rotate\n";
++    } elsif ($freq eq 'disabled') {
++	 return "# squid rotate disabled\n";
++    } else {
++	return "$min $hour * * * root squid -k rotate\n"
++    }
++}
+diff -Nur -x '*.orig' -x '*.rej' e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/25LogfileRotate mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/25LogfileRotate
+--- e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/25LogfileRotate	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/25LogfileRotate	2007-01-13 13:36:04.000000000 -0700
+@@ -0,0 +1 @@
++logfile_rotate 0

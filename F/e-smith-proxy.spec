@@ -2,13 +2,14 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.14.0
-%define release 2
+%define release 3
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch1: e-smith-proxy-4.14.0-squidrotate.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base
@@ -23,11 +24,14 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Sat Jan 13 2007 Shad L. Lords <slords@mail.com> 4.14.0-3
+- Make squid clean cache [SME: 2195]
+
 * Thu Dec 07 2006 Shad L. Lords <slords@mail.com>
 - Update to new release naming.  No functional changes.
 - Make Packager generic
 
-* Wed Mar 15 2006 Charlie Brady <charlie_brady@mitel.com> 1.2.0-01
+* Wed Mar 15 2006 Charlie Brady <charlie_brady@mitel.com> 4.14.0-1
 - Roll stable stream version. [SME: 1016]
 
 * Mon Mar 13 2006 Gordon Rowell <gordonr@gormand.com.au> 4.13.2-06
@@ -616,6 +620,7 @@ e-smith server and gateway software - proxy module.
 
 %prep
 %setup
+%patch1 -p1
 
 %build
 perl createlinks
