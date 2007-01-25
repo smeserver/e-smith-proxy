@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.14.0
-%define release 3
+%define release 4
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -10,6 +10,7 @@ License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-proxy-4.14.0-squidrotate.patch
+Patch2: e-smith-proxy-4.14.0-proxycron.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base
@@ -24,6 +25,9 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Thu Jan 25 2007 Shad L. Lords <slords@mail.com> 4.14.0-4
+- Expand crontab template on proxy-update [SME: 2195]
+
 * Sat Jan 13 2007 Shad L. Lords <slords@mail.com> 4.14.0-3
 - Make squid clean cache [SME: 2195]
 
@@ -621,6 +625,7 @@ e-smith server and gateway software - proxy module.
 %prep
 %setup
 %patch1 -p1
+%patch2 -p1
 
 %build
 perl createlinks
