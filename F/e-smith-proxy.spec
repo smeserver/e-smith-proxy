@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.14.0
-%define release 4
+%define release 5
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -11,6 +11,7 @@ Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-proxy-4.14.0-squidrotate.patch
 Patch2: e-smith-proxy-4.14.0-proxycron.patch
+Patch3: e-smith-proxy-4.14.0-http_port.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base
@@ -25,6 +26,9 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Thu Feb 15 2007 Charlie Brady <charlie_brady@mitel.com> 4.14.0-5
+- Specify the port to which squid should bind. [SME: 2476]
+
 * Thu Jan 25 2007 Shad L. Lords <slords@mail.com> 4.14.0-4
 - Expand crontab template on proxy-update [SME: 2195]
 
@@ -626,6 +630,7 @@ e-smith server and gateway software - proxy module.
 %setup
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 perl createlinks
