@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.14.0
-%define release 5
+%define release 6
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -12,6 +12,7 @@ Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-proxy-4.14.0-squidrotate.patch
 Patch2: e-smith-proxy-4.14.0-proxycron.patch
 Patch3: e-smith-proxy-4.14.0-http_port.patch
+Patch4: e-smith-proxy-4.14.0-squid.conf_perms.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base
@@ -26,6 +27,9 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Fri Apr 06 2007 Shad L. Lords <slords@mail.com> 4.14.0-6
+- Fix owner/perms on squid.conf file [SME: 2719]
+
 * Thu Feb 15 2007 Charlie Brady <charlie_brady@mitel.com> 4.14.0-5
 - Specify the port to which squid should bind. [SME: 2476]
 
@@ -631,6 +635,7 @@ e-smith server and gateway software - proxy module.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 perl createlinks
