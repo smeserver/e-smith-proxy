@@ -4,8 +4,7 @@ Name: %{name}
 %define version 4.14.0
 %define release 6
 Version: %{version}
-Release: %smerelease %{release}
-Packager: %{_packager}
+Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
@@ -27,6 +26,9 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Sun Apr 29 2007 Shad L. Lords <slords@mail.com>
+- Clean up spec so package can be built by koji/plague
+
 * Fri Apr 06 2007 Shad L. Lords <slords@mail.com> 4.14.0-6
 - Fix owner/perms on squid.conf file [SME: 2719]
 
