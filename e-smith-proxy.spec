@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.14.0
-%define release 6
+%define release 7
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -12,6 +12,7 @@ Patch1: e-smith-proxy-4.14.0-squidrotate.patch
 Patch2: e-smith-proxy-4.14.0-proxycron.patch
 Patch3: e-smith-proxy-4.14.0-http_port.patch
 Patch4: e-smith-proxy-4.14.0-squid.conf_perms.patch
+Patch5: e-smith-proxy-4.14.0-bind_address.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base
@@ -26,6 +27,9 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Wed Aug 29 2007 Charlie Brady <charlie_brady@mitel.com> 4.14.0-7
+- Bind only to local interface and loopback interface. [SME: 2658]
+
 * Sun Apr 29 2007 Shad L. Lords <slords@mail.com>
 - Clean up spec so package can be built by koji/plague
 
@@ -638,6 +642,7 @@ e-smith server and gateway software - proxy module.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 perl createlinks
