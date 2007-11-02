@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.14.0
-%define release 7
+%define release 8
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -13,6 +13,7 @@ Patch2: e-smith-proxy-4.14.0-proxycron.patch
 Patch3: e-smith-proxy-4.14.0-http_port.patch
 Patch4: e-smith-proxy-4.14.0-squid.conf_perms.patch
 Patch5: e-smith-proxy-4.14.0-bind_address.patch
+Patch6: e-smith-proxy-4.14.0-AddWpadFeature.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base
@@ -27,6 +28,9 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Fri Nov 02 2007 Gavin Weight <gweight@gmail.com> 4.14.0-8
+- Add Wpad funtion to dhcpd.conf. [SME: 3512]
+
 * Wed Aug 29 2007 Charlie Brady <charlie_brady@mitel.com> 4.14.0-7
 - Bind only to local interface and loopback interface. [SME: 2658]
 
@@ -643,6 +647,7 @@ e-smith server and gateway software - proxy module.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 perl createlinks
