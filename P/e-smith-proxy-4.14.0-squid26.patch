@@ -31,3 +31,8 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-proxy-4.14.0/root/etc/e-smith/templates
 -httpd_accel_host virtual
 -httpd_accel_with_proxy on
 -httpd_accel_uses_host_header on" ; }
+diff -Nur -x '*.orig' -x '*.rej' e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/24Logfile mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/24Logfile
+--- e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/24Logfile      1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/24Logfile    2007-12-20 15:55:16.000000000 -0700
+@@ -0,0 +1 @@
++access_log /var/log/squid/access.log squid
