@@ -1,0 +1,33 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/10HTTPPort mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/10HTTPPort
+--- e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/10HTTPPort	2007-12-20 15:10:07.000000000 -0700
++++ mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/10HTTPPort	2007-12-20 15:09:47.000000000 -0700
+@@ -1,4 +1,11 @@
+ {
+-    $OUT .= "http_port $LocalIP:" . ($squid{TCPPort} || '3128') . "\n";
+-    $OUT .= "http_port 127.0.0.1:" . ($squid{TCPPort} || '3128');
++    my $transproxy = db_get_prop($confref, 'squid', 'Transparent') || "yes";
++
++    if ($transproxy eq 'yes') {
++	$OUT .= "http_port $LocalIP:" . ($squid{TCPPort} || '3128') . " transparent\n";
++	$OUT .= "http_port 127.0.0.1:" . ($squid{TCPPort} || '3128') . ' transparent';
++    } else {
++	$OUT .= "http_port $LocalIP:" . ($squid{TCPPort} || '3128') . "\n";
++	$OUT .= "http_port 127.0.0.1:" . ($squid{TCPPort} || '3128');
++    }
+ }
+diff -Nur -x '*.orig' -x '*.rej' e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/50-transproxy mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/50-transproxy
+--- e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/50-transproxy	2002-04-19 10:45:31.000000000 -0600
++++ mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/50-transproxy	1969-12-31 17:00:00.000000000 -0700
+@@ -1,12 +0,0 @@
+-{
+-    my $transproxy = db_get_prop($confref, 'squid', 'Transparent') || "yes";
+-    $OUT = '';
+-    return unless ($transproxy eq "yes");
+-
+-# These squid settings set up transparent proxying - as
+-# long as a packet redirector is also set up to forward
+-# port 80 TCP connections into squid.
+-    $OUT .= "
+-httpd_accel_host virtual
+-httpd_accel_with_proxy on
+-httpd_accel_uses_host_header on" ; }
