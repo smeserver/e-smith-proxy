@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.14.0
-%define release 9
+%define release 10
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -15,6 +15,7 @@ Patch4: e-smith-proxy-4.14.0-squid.conf_perms.patch
 Patch5: e-smith-proxy-4.14.0-bind_address.patch
 Patch6: e-smith-proxy-4.14.0-AddWpadFeature.patch
 Patch7: e-smith-proxy-4.14.0-squid26.patch
+Patch8: e-smith-proxy-4.14.0-notenforced.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base
@@ -29,6 +30,9 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Thu Dec 27 2007 Stephen Noble <support@dungog.net> 4.14.0-10
+- wording in panel re proxy in serveronly mode [SME: 3514]
+
 * Thu Dec 20 2007 Shad L. Lords <slords@mail.com> 4.14.0-9
 - Update squid directives for sme8 [SME: 2518]
 
@@ -655,7 +659,7 @@ e-smith server and gateway software - proxy module.
 %if "%{?rhel}" == "5"
 %patch7 -p1
 %endif
-
+%patch8 -p1
 
 %build
 perl createlinks
