@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.14.0
-%define release 10
+%define release 11
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -16,6 +16,7 @@ Patch5: e-smith-proxy-4.14.0-bind_address.patch
 Patch6: e-smith-proxy-4.14.0-AddWpadFeature.patch
 Patch7: e-smith-proxy-4.14.0-squid26.patch
 Patch8: e-smith-proxy-4.14.0-notenforced.patch
+Patch9: e-smith-proxy-4.14.0-rmFormTitle.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base
@@ -30,6 +31,9 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Sun Feb 10 2008 Stephen Noble <support@dungog.net> 4.14.0-11
+- Remove duplicate <base> entries [SME: 3893]
+
 * Thu Dec 27 2007 Stephen Noble <support@dungog.net> 4.14.0-10
 - wording in panel re proxy in serveronly mode [SME: 3514]
 
@@ -660,6 +664,7 @@ e-smith server and gateway software - proxy module.
 %patch7 -p1
 %endif
 %patch8 -p1
+%patch9 -p1
 
 %build
 perl createlinks
