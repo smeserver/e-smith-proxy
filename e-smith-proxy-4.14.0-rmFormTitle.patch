@@ -1,0 +1,26 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-proxy-4.14.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy
+--- e-smith-proxy-4.14.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy	2008-02-10 08:45:59.000000000 +1100
++++ mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy	2008-02-10 08:43:42.000000000 +1100
+@@ -10,10 +10,6 @@
+         <trans>Security</trans>
+     </entry>
+     <entry>
+-        <base>FORM_TITLE</base>
+-        <trans>Proxy settings</trans>
+-    </entry>
+-    <entry>
+         <base>FIRST_PAGE_DESCRIPTION</base>
+         <trans>
+             This page allows configuration of the server's 
+diff -Nur -x '*.orig' -x '*.rej' e-smith-proxy-4.14.0/root/etc/e-smith/web/functions/proxy mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/web/functions/proxy
+--- e-smith-proxy-4.14.0/root/etc/e-smith/web/functions/proxy	2004-06-11 07:46:50.000000000 +1000
++++ mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/web/functions/proxy	2008-02-10 08:43:32.000000000 +1100
+@@ -36,7 +36,7 @@
+ }
+ 
+ __DATA__
+-<form title="FORM_TITLE" header="/etc/e-smith/web/common/head.tmpl"
++<form title="Proxy settings" header="/etc/e-smith/web/common/head.tmpl"
+     footer="/etc/e-smith/web/common/foot.tmpl">
+ 
+     <page
