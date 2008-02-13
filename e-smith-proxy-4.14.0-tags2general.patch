@@ -1,0 +1,33 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-proxy-4.14.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy
+--- e-smith-proxy-4.14.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy	2008-02-13 23:22:34.000000000 +1100
++++ mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy	2008-02-13 23:21:00.000000000 +1100
+@@ -6,10 +6,6 @@
+         <trans>Proxy settings</trans>
+     </entry>
+     <entry>
+-        <base>Security</base>
+-        <trans>Security</trans>
+-    </entry>
+-    <entry>
+         <base>FIRST_PAGE_DESCRIPTION</base>
+         <trans>
+             This page allows configuration of the server's 
+@@ -51,18 +47,6 @@
+         <trans>SMTP proxy status</trans>
+     </entry>
+     <entry>
+-        <base>SAVE</base>
+-        <trans>Save</trans>
+-    </entry>
+-    <entry>
+-        <base>ENABLED</base>
+-        <trans>Enabled</trans>
+-    </entry>
+-    <entry>
+-        <base>DISABLED</base>
+-        <trans>Disabled</trans>
+-    </entry>
+-    <entry>
+         <base>ERR_PROXY_UPDATE_FAILED</base>
+         <trans>
+             ERROR: The proxy-update event returned an error.
