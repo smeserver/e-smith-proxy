@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.14.0
-%define release 11
+%define release 12
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -17,12 +17,14 @@ Patch6: e-smith-proxy-4.14.0-AddWpadFeature.patch
 Patch7: e-smith-proxy-4.14.0-squid26.patch
 Patch8: e-smith-proxy-4.14.0-notenforced.patch
 Patch9: e-smith-proxy-4.14.0-rmFormTitle.patch
+Patch10: e-smith-proxy-4.14.0-tags2general.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base
 Requires: squid
 Requires: e-smith-lib >= 1.15.1-19
 Requires: iptables
+Requires: e-smith-formmagick >= 1.4.0-9
 BuildRequires: e-smith-devtools
 Obsoletes: e-smith-transproxy
 AutoReqProv: no
@@ -31,6 +33,9 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Wed Feb 13 2008 Stephen Noble <support@dungog.net> 4.14.0-12
+- Remove <base> tags now in general [SME: 3918]
+
 * Sun Feb 10 2008 Stephen Noble <support@dungog.net> 4.14.0-11
 - Remove duplicate <base> entries [SME: 3893]
 
@@ -665,6 +670,7 @@ e-smith server and gateway software - proxy module.
 %endif
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %build
 perl createlinks
