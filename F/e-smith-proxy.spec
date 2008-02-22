@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.14.0
-%define release 12
+%define release 13
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -18,6 +18,7 @@ Patch7: e-smith-proxy-4.14.0-squid26.patch
 Patch8: e-smith-proxy-4.14.0-notenforced.patch
 Patch9: e-smith-proxy-4.14.0-rmFormTitle.patch
 Patch10: e-smith-proxy-4.14.0-tags2general.patch
+Patch11: e-smith-proxy-4.14.0-ChangeWpadURL.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base
@@ -33,6 +34,9 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Fri Feb 22 2008 Gavin Weight <gweight@gmail.com> 4.14.0-13
+- Change Wpad URL to match system domain. [SME: 3512]
+
 * Wed Feb 13 2008 Stephen Noble <support@dungog.net> 4.14.0-12
 - Remove <base> tags now in general [SME: 3918]
 
@@ -671,6 +675,7 @@ e-smith server and gateway software - proxy module.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 %build
 perl createlinks
