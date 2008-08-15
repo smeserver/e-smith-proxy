@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 4.14.0
-%define release 14
+%define release 15
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -20,6 +20,7 @@ Patch9: e-smith-proxy-4.14.0-rmFormTitle.patch
 Patch10: e-smith-proxy-4.14.0-tags2general.patch
 Patch11: e-smith-proxy-4.14.0-ChangeWpadURL.patch
 Patch12: e-smith-proxy-4.14.0-no_confref.patch
+Patch13: e-smith-proxy-4.14.0-no_confref-sme8.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base
@@ -35,6 +36,9 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Fri Aug 15 2008 Shad L. Lords <slords@mail.com> 4.14.0-15
+- Fix obsolete use of esmith::db class in template fragment in sme8. [SME: 4509]
+
 * Fri Aug 15 2008 Charlie Brady <charlie_brady@mitel.com> 4.14.0-14
 - Fix obsolete use of esmith::db class in template fragment. [SME: 4509]
 
@@ -680,7 +684,11 @@ e-smith server and gateway software - proxy module.
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
+%if "%{?rhel}" == "4"
 %patch12 -p1
+%else
+%patch13 -p1
+%endif
 
 %build
 perl createlinks
