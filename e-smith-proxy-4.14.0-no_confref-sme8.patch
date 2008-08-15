@@ -1,0 +1,9 @@
+--- e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/10HTTPPort.no_confref-sme8	2008-08-15 17:42:44.000000000 -0600
++++ e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/10HTTPPort	2008-08-15 17:45:28.000000000 -0600
+@@ -1,5 +1,5 @@
+ {
+-    my $transproxy = db_get_prop($confref, 'squid', 'Transparent') || "yes";
++    my $transproxy = $squid{Transparent} || "yes";
+ 
+     if ($transproxy eq 'yes') {
+ 	$OUT .= "http_port $LocalIP:" . ($squid{TCPPort} || '3128') . " transparent\n";
