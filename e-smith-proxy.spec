@@ -1,26 +1,15 @@
+# $Id: e-smith-proxy.spec,v 1.11 2008/10/07 19:14:44 slords Exp $
+
 Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
-%define version 4.14.0
-%define release 15
+%define version 5.0.0
+%define release 1
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch1: e-smith-proxy-4.14.0-squidrotate.patch
-Patch2: e-smith-proxy-4.14.0-proxycron.patch
-Patch3: e-smith-proxy-4.14.0-http_port.patch
-Patch4: e-smith-proxy-4.14.0-squid.conf_perms.patch
-Patch5: e-smith-proxy-4.14.0-bind_address.patch
-Patch6: e-smith-proxy-4.14.0-AddWpadFeature.patch
-Patch7: e-smith-proxy-4.14.0-squid26.patch
-Patch8: e-smith-proxy-4.14.0-notenforced.patch
-Patch9: e-smith-proxy-4.14.0-rmFormTitle.patch
-Patch10: e-smith-proxy-4.14.0-tags2general.patch
-Patch11: e-smith-proxy-4.14.0-ChangeWpadURL.patch
-Patch12: e-smith-proxy-4.14.0-no_confref.patch
-Patch13: e-smith-proxy-4.14.0-no_confref-sme8.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base
@@ -36,6 +25,9 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Tue Oct 7 2008 Shad L. Lords <slords@mail.com> 5.0.0-1.sme
+- Roll new stream to separate sme7/sme8 trees [SME: 4633]
+
 * Fri Aug 15 2008 Shad L. Lords <slords@mail.com> 4.14.0-15
 - Fix obsolete use of esmith::db class in template fragment in sme8. [SME: 4509]
 
@@ -671,24 +663,6 @@ e-smith server and gateway software - proxy module.
 
 %prep
 %setup
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%if "%{?rhel}" == "5"
-%patch7 -p1
-%endif
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%if "%{?rhel}" == "4"
-%patch12 -p1
-%else
-%patch13 -p1
-%endif
 
 %build
 perl createlinks

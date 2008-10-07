@@ -1,7 +1,0 @@
-diff -Nur -x '*.orig' -x '*.rej' e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/10HTTPPort mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/10HTTPPort
---- e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/10HTTPPort	1969-12-31 19:00:00.000000000 -0500
-+++ mezzanine_patched_e-smith-proxy-4.14.0/root/etc/e-smith/templates/etc/squid/squid.conf/10HTTPPort	2007-02-15 16:45:50.000000000 -0500
-@@ -0,0 +1,3 @@
-+{
-+    "http_port " . ($squid{TCPPort} || '3128');
-+}
