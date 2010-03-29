@@ -1,15 +1,16 @@
-# $Id: e-smith-proxy.spec,v 1.11 2008/10/07 19:14:44 slords Exp $
+# $Id: e-smith-proxy.spec,v 1.12 2010/03/29 14:52:05 filippocarletti Exp $
 
 Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 5.2.0
-%define release 1
+%define release 2
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch0: e-smith-proxy-5.2.0-blocksmtp.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base
@@ -17,6 +18,7 @@ Requires: squid
 Requires: e-smith-lib >= 1.15.1-19
 Requires: iptables
 Requires: e-smith-formmagick >= 1.4.0-9
+Requires: e-smith-email >= 5.2.0-5
 BuildRequires: e-smith-devtools
 Obsoletes: e-smith-transproxy
 AutoReqProv: no
@@ -25,6 +27,9 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Thu Mar 25 2010 Federico Simoncelli <federico.simoncelli@gmail.com> 5.2.0-2.sme
+- New option to block outgoing SMTP connections [SME: 5574]
+
 * Tue Oct 7 2008 Shad L. Lords <slords@mail.com> 5.2.0-1.sme
 - Roll new stream to separate sme7/sme8 trees [SME: 4633]
 
@@ -663,6 +668,7 @@ e-smith server and gateway software - proxy module.
 
 %prep
 %setup
+%patch0 -p1
 
 %build
 perl createlinks

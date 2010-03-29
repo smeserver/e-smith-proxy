@@ -1,0 +1,29 @@
+diff -uNr e-smith-proxy-5.2.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy e-smith-proxy-5.2.0-blocksmtp/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy
+--- e-smith-proxy-5.2.0/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy	2008-10-07 19:37:03.000000000 +0200
++++ e-smith-proxy-5.2.0-blocksmtp/root/etc/e-smith/locale/en-us/etc/e-smith/web/functions/proxy	2010-03-25 15:10:21.714309722 +0100
+@@ -64,4 +64,8 @@
+             The new proxy settings were applied successfully.
+         </trans>
+     </entry>
++    <entry>
++        <base>BLOCKED</base>
++        <trans>Blocked</trans>
++    </entry>
+ </lexicon>
+diff -uNr e-smith-proxy-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/proxy.pm e-smith-proxy-5.2.0-blocksmtp/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/proxy.pm
+--- e-smith-proxy-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/proxy.pm	2005-07-15 00:00:47.000000000 +0200
++++ e-smith-proxy-5.2.0-blocksmtp/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/proxy.pm	2010-03-25 15:08:01.259288657 +0100
+@@ -117,11 +117,12 @@
+ {
+     my $self = shift;
+     my $q = $self->{cgi};
+-    my @smtp_proxy_settings = qw(enabled disabled);
++    my @smtp_proxy_settings = qw(enabled disabled blocked);
+     my $default = $self->get_smtp_proxy_status();
+     my %labels = (
+         enabled  => $self->localise('ENABLED'),
+         disabled => $self->localise('DISABLED'),
++        blocked => $self->localise('BLOCKED'),
+         );
+ 
+     if (system('/bin/rpm -q e-smith-email > /dev/null') == 0)
