@@ -1,0 +1,12 @@
+diff -up e-smith-proxy-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/proxy.pm.transparent2 e-smith-proxy-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/proxy.pm
+--- e-smith-proxy-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/proxy.pm.transparent2	2010-09-26 11:10:46.000000000 -0600
++++ e-smith-proxy-5.2.0/root/usr/lib/perl5/site_perl/esmith/FormMagick/Panel/proxy.pm	2010-09-26 11:11:04.000000000 -0600
+@@ -120,7 +120,7 @@ sub show_smtp_proxy_status
+     my @smtp_proxy_settings = qw(transparent disabled blocked);
+     my $default = $self->get_smtp_proxy_status();
+     my %labels = (
+-        enabled  => $self->localise('ENABLED'),
++        transparent  => $self->localise('ENABLED'),
+         disabled => $self->localise('DISABLED'),
+         blocked => $self->localise('BLOCKED'),
+         );
