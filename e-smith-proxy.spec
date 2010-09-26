@@ -1,16 +1,17 @@
-# $Id: e-smith-proxy.spec,v 1.12 2010/03/29 14:52:05 filippocarletti Exp $
+# $Id: e-smith-proxy.spec,v 1.13 2010/09/26 16:28:40 slords Exp $
 
 Summary: e-smith server and gateway - proxy module
 %define name e-smith-proxy
 Name: %{name}
 %define version 5.2.0
-%define release 2
+%define release 3
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-proxy-5.2.0-blocksmtp.patch
+Patch1: e-smith-proxy-5.2.0-transparent.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base
@@ -27,6 +28,9 @@ AutoReqProv: no
 e-smith server and gateway software - proxy module.
 
 %changelog
+* Sun Sep 25 2010 Shad L. Lords <slords@mail.com> 5.2.0-3.sme
+- Change enabled to transparent for mail proxy [SME: 5574]
+
 * Thu Mar 25 2010 Federico Simoncelli <federico.simoncelli@gmail.com> 5.2.0-2.sme
 - New option to block outgoing SMTP connections [SME: 5574]
 
@@ -669,6 +673,7 @@ e-smith server and gateway software - proxy module.
 %prep
 %setup
 %patch0 -p1
+%patch1 -p1
 
 %build
 perl createlinks
